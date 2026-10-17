@@ -6412,6 +6412,12 @@ if not chunk then status("boot-compile-failed");warn(err);return end
 local ran,why=pcall(chunk)
 if not ran then status("boot-run-failed");warn(why) end
 ]==]
+    -- Local HTTP mode queues the companion loader, preserving its live snapshot.
+    if not env.__PlexLicensedEntry and type(env.__PlexLocalSourceURL)=="string"
+        and env.__PlexLocalSourceURL:match("^http://127%.0%.0%.1:%d+/")
+        and type(env.__PlexLocalTeleportSource)=="string" and env.__PlexLocalTeleportSource~="" then
+        queueEntry=env.__PlexLocalTeleportSource
+    end
     self.TPHandlerArmed=false
     for _,handler in ipairs(tpHandlers) do
         local ok,accepted=pcall(handler.Callback,queueEntry)
