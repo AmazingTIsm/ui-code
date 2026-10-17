@@ -426,10 +426,10 @@ end
 
 local PAGE_SUBTABS={
     main={"aimbot","silent aim","triggerbot","weapon","movement"},rage={"ragebot","priority"},melee={"combat","reach","targets"},
-    world={"lighting","atmosphere","sky","effects","camera"},esp={"options","appearance","highlight"},
+    world={"lighting","atmosphere","sky","effects","camera"},esp={"options","appearance","highlight","preview"},
     skins={"skin","wrap","charm","finisher","gun animations","emotes","unlock all"},visuals={"weapons / viewmodels","crosshair","effects","sounds","hud"},
-    character={"movement","character","animations"},misc={"general","loadout","queue","chat"},
-    spoofers={"spoofers","enemy spoofer","device"},ranks={"enemy ranks","ranked access","auto ban"},customcosmetics={"skin","wrap","charm","finisher","emote"},inventoryspoofer={"cosmetics","boxes"},settings={"menu","configs","script","themes"},weaponconfigs={"presets"},servers={"browser"},optimizations={"general"},
+    character={"movement","character","animations"},misc={"general","loadout","queue","chat","ranks/ranked","overlays / extras"},
+    spoofers={"spoofers","enemy spoofer","device","marketplace"},ranks={"enemy ranks","ranked access","auto ban"},customcosmetics={"skin","wrap","charm","finisher","emote"},inventoryspoofer={"cosmetics","boxes"},settings={"menu","configs","script","themes"},weaponconfigs={"presets"},servers={"browser"},optimizations={"general"},
 }
 local function pageSubtab(page,title)
     local text=string.lower(title or "")
@@ -437,14 +437,14 @@ local function pageSubtab(page,title)
         main={{{"silent"},"silent aim"},{{"aim","target"},"aimbot"},{{"trigger","click"},"triggerbot"},{{"weapon"},"weapon"},{{"move","speed","fly"},"movement"}},
         rage={{{"priority"},"priority"}},melee={{{"reach","hitbox"},"reach"},{{"target","team","dummy"},"targets"}},
         world={{{"camera","stretch"},"camera"},{{"sky","weather","ambience"},"sky"},{{"bloom","sun","effect"},"effects"},{{"atmosphere","color correction"},"atmosphere"}},
-        esp={{{"appearance","override","custom"},"appearance"},{{"highlight"},"highlight"}},
+        esp={{{"preview"},"preview"},{{"appearance","override","custom"},"appearance"},{{"highlight"},"highlight"}},
         skins={{{"unlock","ownership"},"unlock all"},{{"animation"},"gun animations"},{{"emote"},"emotes"},{{"finish"},"finisher"},{{"charm"},"charm"},{{"wrap"},"wrap"}},
         customcosmetics={{{"emote"},"emote"},{{"finish"},"finisher"},{{"charm"},"charm"},{{"wrap"},"wrap"},{{"skin"},"skin"}},
         inventoryspoofer={{{"box","case"},"boxes"},{{"cosmetic","inventory"},"cosmetics"}},
         visuals={{{"viewmodel","weapon"},"weapons / viewmodels"},{{"crosshair"},"crosshair"},{{"sound"},"sounds"},{{"tracer","effect"},"effects"},{{"target","indicator","hud"},"hud"}},
-        character={{{"animation"},"animations"}},misc={{{"load"},"loadout"},{{"queue","ban"},"queue"},{{"chat"},"chat"}},
-        ranks={{{"access","preview"},"ranked access"},{{"ban"},"auto ban"}},
-        spoofers={{{"enemy"},"enemy spoofer"},{{"device"},"device"}},settings={{{"script","auto load"},"script"},{{"config"},"configs"},{{"theme"},"themes"}},
+        character={{{"animation"},"animations"}},misc={{{"input overlay","input sounds","music player"},"overlays / extras"},{{"rank","lobby info"},"ranks/ranked"},{{"load"},"loadout"},{{"queue","ban"},"queue"},{{"chat"},"chat"}},
+        ranks={{{"access","preview"},"ranked access"},{{"ban"},"auto ban"},{{"rank","lobby info"},"enemy ranks"}},
+        spoofers={{{"robux","gifting","marketplace"},"marketplace"},{{"enemy"},"enemy spoofer"},{{"device"},"device"}},settings={{{"script","auto load"},"script"},{{"config"},"configs"},{{"theme"},"themes"}},
     }
     for _,rule in ipairs(rules[page] or {}) do
         for _,word in ipairs(rule[1]) do if text:find(word,1,true) then return rule[2] end end
@@ -459,13 +459,13 @@ local SUB_ICONS={
     rage={ragebot="flame",priority="list-filter"},
     melee={combat="swords",reach="maximize-2",targets="users"},
     world={lighting="sun",atmosphere="cloud",sky="cloud-sun",effects="sparkles",camera="camera"},
-    esp={options="scan",appearance="palette",highlight="highlighter"},
+    esp={options="scan",appearance="palette",highlight="highlighter",preview="eye"},
     skins={skin="shirt",wrap="paintbrush",charm="gem",finisher="badge-check",["gun animations"]="play",emotes="smile",["unlock all"]="lock-open"},
     customcosmetics={skin="shirt",wrap="paintbrush",charm="gem",finisher="badge-check",emote="music"},
     inventoryspoofer={cosmetics="backpack",boxes="package-open"},
     visuals={["weapons / viewmodels"]="pistol",crosshair="crosshair",effects="wand-sparkles",sounds="volume-2",hud="panel-top"},
     character={movement="person-standing",character="user-round",animations="activity"},
-    misc={general="wrench",loadout="package",queue="list-ordered",chat="message-square"},
+    misc={general="wrench",loadout="package",queue="list-ordered",chat="message-square",["ranks/ranked"]="medal",["overlays / extras"]="keyboard"},
     spoofers={spoofers="venetian-mask",["enemy spoofer"]="user-x",device="smartphone"},
     settings={menu="panel-left",configs="folder-cog",script="code-2",themes="palette"},
     optimizations={general="gauge"},
@@ -586,21 +586,22 @@ function Library:CreateWindow(config)
             local brand=Instance.new("TextLabel")
             brand.Name="PlexBrand"
             brand.BackgroundTransparency=1
-            brand.Position=UDim2.fromOffset(62,8)
-            brand.Size=UDim2.fromOffset(180,34)
+            brand.Position=UDim2.fromOffset(50,7)
+            brand.Size=UDim2.fromOffset(180,20)
             brand.Font=Enum.Font.GothamBold
             brand.Text="plex.cc  ·  DEV"
             brand.TextSize=15
-            brand.TextColor3=Color3.fromRGB(245,247,250)
+            brand.TextColor3=UI.C.text
+            UI.onThemeChanged(function() if brand.Parent then brand.TextColor3=UI.C.text end end)
             brand.TextXAlignment=Enum.TextXAlignment.Left
             brand.ZIndex=20
             brand.Parent=top
         end
     end)
-    local window={Holder=self.Holder,Tabs={}}
+    local window={Holder=self.Holder,PreviewAnchor=ZWindow.Items.Main.Instance,Tabs={}}
     function window:SetWindowTitle() end
     function window:AddTab(name)
-        local zTab=ZWindow:Tab({Name=PAGE_NAMES[name] or tostring(name),Icon=ICONS[name] or "circle"})
+        local zTab=ZWindow:Tab({Name=PAGE_NAMES[name] or tostring(name),Icon=ICONS[name] or "circle",Category=({main="Combat",rage="Combat",melee="Combat",weaponconfigs="Combat",world="Visuals",esp="Visuals",visuals="Visuals",skins="Visuals",customcosmetics="Visuals",inventoryspoofer="Visuals",character="Player",misc="Other",servers="Other",spoofers="Other",settings="Settings",optimizations="Other"})[name] or "Other"})
         local tab={Zolar=zTab,Groupboxes={},Tabboxes={},Subs={}}
         Menu.subs[name]={}
         for _,subName in ipairs(PAGE_SUBTABS[name] or {"general"}) do
@@ -1216,7 +1217,6 @@ function saveManager:ArmTPHandler(force)
             if not existsOk or not exists then entry.Path="plex.cc dev/main_dev.lua" end
         end
         writefile("Overlay/plex_entry.json",HttpService:JSONEncode(entry))
-        if env.__PlexInstallAutoExec then pcall(env.__PlexInstallAutoExec) end
     end)
     if not cached then
         self.TPHandlerArmed = false
@@ -1255,158 +1255,163 @@ function saveManager:ArmTPHandler(force)
 task.spawn(function()
 -- BEGIN PLEX STARTUP WAIT
 local function waitForLoadingScreen()
-	local players = game:GetService("Players")
-	local coreGui = game:GetService("CoreGui")
-	local replicatedStorage = game:GetService("ReplicatedStorage")
+    local players = game:GetService("Players")
+    local coreGui = game:GetService("CoreGui")
+    local replicatedStorage = game:GetService("ReplicatedStorage")
 
-	local deadline = os.clock() + 120
-	while (not game:IsLoaded() or not players.LocalPlayer) and os.clock() < deadline do task.wait(0.2) end
-	local player = players.LocalPlayer
-	if not game:IsLoaded() or not player then
-		warn("[Plex] Roblox did not finish loading within 120 seconds.")
-		return false
-	end
-	local env = getgenv and getgenv() or _G
-	local previousWait = env.__PlexStartupWaitReady
-	if previousWait and previousWait.JobId == game.JobId and previousWait.Player == player
-		and type(previousWait.At) == "number"
-		and os.clock() - previousWait.At < 5 then
-		return true
-	end
+    local deadline = os.clock() + 120
+    while (not game:IsLoaded() or not players.LocalPlayer) and os.clock() < deadline do task.wait(0.2) end
+    local player = players.LocalPlayer
+    if not game:IsLoaded() or not player then
+        warn("[Plex] Roblox did not finish loading within 120 seconds.")
+        return false
+    end
+    local env = getgenv and getgenv() or _G
+    local previousWait = env.__PlexStartupWaitReady
+    if previousWait and previousWait.JobId == game.JobId and previousWait.Player == player
+        and type(previousWait.At) == "number"
+        and os.clock() - previousWait.At < 5 then
+        return true
+    end
 
-	local playerGui, playerScripts, controllers, modules, playerDataModule, enumModule
-	repeat
-		playerGui = player:FindFirstChild("PlayerGui")
-		playerScripts = player:FindFirstChild("PlayerScripts")
-		controllers = playerScripts and playerScripts:FindFirstChild("Controllers")
-		modules = replicatedStorage:FindFirstChild("Modules")
-		playerDataModule = controllers and controllers:FindFirstChild("PlayerDataController")
-		enumModule = modules and modules:FindFirstChild("EnumLibrary")
-		if playerGui and playerDataModule and enumModule then break end
-		task.wait(0.2)
-	until os.clock() >= deadline
-	if not (playerGui and playerDataModule and enumModule) then
-		warn("[Plex] Native game modules did not appear within 120 seconds.")
-		return false
-	end
-	local playerData, enumLibrary
-	local function requireNative(object)
-		local identity = getthreadidentity and getthreadidentity()
-		if setthreadidentity then pcall(setthreadidentity, 2) end
-		local ok, result = pcall(require, object)
-		if identity and setthreadidentity then pcall(setthreadidentity, identity) end
-		return ok, result
-	end
-	local function isActiveLoadingGui(object)
-		local normalizedName = object.Name:lower():gsub("[%s_%-]", "")
-		if normalizedName ~= "loadingscreen" and not normalizedName:find("loadingscreen", 1, true) then
-			return false
-		end
+    local playerGui, playerScripts, controllers, modules, playerDataModule, enumModule
+    repeat
+        playerGui = player:FindFirstChild("PlayerGui")
+        playerScripts = player:FindFirstChild("PlayerScripts")
+        controllers = playerScripts and playerScripts:FindFirstChild("Controllers")
+        modules = replicatedStorage:FindFirstChild("Modules")
+        playerDataModule = controllers and controllers:FindFirstChild("PlayerDataController")
+        enumModule = modules and modules:FindFirstChild("EnumLibrary")
+        if playerGui and playerDataModule and enumModule then break end
+        task.wait(0.2)
+    until os.clock() >= deadline
+    if not (playerGui and playerDataModule and enumModule) then
+        warn("[Plex] Native game modules did not appear within 120 seconds.")
+        return false
+    end
+    local playerData, enumLibrary
+    local function requireNative(object)
+        local identity = getthreadidentity and getthreadidentity()
+        if setthreadidentity then pcall(setthreadidentity, 2) end
+        local ok, result = pcall(require, object)
+        if identity and setthreadidentity then pcall(setthreadidentity, identity) end
+        return ok, result
+    end
+    local function isActiveLoadingGui(object)
+        local normalizedName = object.Name:lower():gsub("[%s_%-]", "")
+        if normalizedName ~= "loadingscreen" and not normalizedName:find("loadingscreen", 1, true) then
+            return false
+        end
 
-		local current = object
-		while current and current ~= playerGui and current ~= coreGui do
-			if current:IsA("LayerCollector") and not current.Enabled then
-				return false
-			end
-			if current:IsA("GuiObject") and not current.Visible then
-				return false
-			end
-			current = current.Parent
-		end
-		return object:IsDescendantOf(playerGui) or object:IsDescendantOf(coreGui)
-	end
+        local current = object
+        while current and current ~= playerGui and current ~= coreGui do
+            if current:IsA("LayerCollector") and not current.Enabled then
+                return false
+            end
+            if current:IsA("GuiObject") and not current.Visible then
+                return false
+            end
+            current = current.Parent
+        end
+        return object:IsDescendantOf(playerGui) or object:IsDescendantOf(coreGui)
+    end
 
-	local loadingCandidates = {}
-	local loadingConnections = {}
-	local function watchLoadingGui(object)
-		local name = object.Name:lower():gsub("[%s_%-]", "")
-		if name:find("loadingscreen", 1, true) then
-			loadingCandidates[object] = true
-		end
-	end
-	for _, root in ipairs({playerGui, coreGui}) do
-		for _, object in ipairs(root:GetDescendants()) do watchLoadingGui(object) end
-		table.insert(loadingConnections, root.DescendantAdded:Connect(watchLoadingGui))
-		table.insert(loadingConnections, root.DescendantRemoving:Connect(function(object)
-			loadingCandidates[object] = nil
-		end))
-	end
-	local function stopWatchingLoadingGui()
-		for _, connection in ipairs(loadingConnections) do connection:Disconnect() end
-	end
+    local loadingCandidates = {}
+    local loadingConnections = {}
+    local function watchLoadingGui(object)
+        local name = object.Name:lower():gsub("[%s_%-]", "")
+        if name:find("loadingscreen", 1, true) then
+            loadingCandidates[object] = true
+        end
+    end
+    for _, root in ipairs({playerGui, coreGui}) do
+        for _, object in ipairs(root:GetDescendants()) do watchLoadingGui(object) end
+        table.insert(loadingConnections, root.DescendantAdded:Connect(watchLoadingGui))
+        table.insert(loadingConnections, root.DescendantRemoving:Connect(function(object)
+            loadingCandidates[object] = nil
+        end))
+    end
+    local function stopWatchingLoadingGui()
+        for _, connection in ipairs(loadingConnections) do connection:Disconnect() end
+    end
 
-	local clearSince, probeThread, probeRunning, nextProbe = nil, nil, false, 0
-	local waitReason = "native loading screen"
-	repeat
-		local loading = false
-		for object in pairs(loadingCandidates) do
-			if isActiveLoadingGui(object) then
-				loading = true
-				waitReason = "loading GUI: " .. object.Name
-				break
-			end
-		end
-		clearSince = loading and nil or (clearSince or os.clock())
-		-- Never start/require Client while the game's loader is visible. Its
-		-- initialization can wait on its own callbacks, blocking our timeout.
-		-- Read only native dependencies already loaded by the game, after the
-		-- GUI clears. A separate task bounds even an executor's yielding require.
-		if clearSince and os.clock() - clearSince >= 0.75 and not probeRunning
-			and not playerData and os.clock() >= nextProbe then
-			nextProbe = os.clock() + 0.5
-			local modulesLoaded = type(getloadedmodules) ~= "function"
-			if not modulesLoaded then
-				local ok, loaded = pcall(getloadedmodules)
-				if ok and type(loaded) == "table" then
-					local enumLoaded, dataLoaded = false, false
-					for _, object in pairs(loaded) do
-						enumLoaded = enumLoaded or object == enumModule
-						dataLoaded = dataLoaded or object == playerDataModule
-					end
-					modulesLoaded = enumLoaded and dataLoaded
-				end
-			end
-			waitReason = "native enum/data initialization"
-			if modulesLoaded then
-				probeRunning = true
-				probeThread = task.spawn(function()
-					local ok, result = requireNative(enumModule)
-					if ok and type(result) == "table" and result._enum_builder_complete == true then
-						enumLibrary = result
-						local dataOk, controller = requireNative(playerDataModule)
-						if dataOk and type(controller) == "table" then playerData = controller end
-					end
-					probeRunning = false
-				end)
-			end
-		end
-		local data = playerData and playerData.CurrentData
-		local ready = data and type(data.Data) == "table"
-			and enumLibrary and enumLibrary._enum_builder_complete == true
-		if ready and clearSince and os.clock() - clearSince >= 0.75 then
-			stopWatchingLoadingGui()
-			env.__PlexStartupWaitReady = {JobId = game.JobId, Player = player, At = os.clock()}
-			return true
-		end
-		if os.clock() >= deadline then
-			stopWatchingLoadingGui()
-			if probeRunning and probeThread and task.cancel then pcall(task.cancel, probeThread) end
-			warn("[Plex] Startup timed out waiting for " .. waitReason .. ". Rejoin a fresh game before retrying.")
-			return false
-		end
-		task.wait(0.2)
-	until false
+    local clearSince, probeThread, probeRunning, nextProbe = nil, nil, false, 0
+    local waitReason = "native loading screen"
+    repeat
+        local loading = false
+        for object in pairs(loadingCandidates) do
+            if isActiveLoadingGui(object) then
+                loading = true
+                waitReason = "loading GUI: " .. object.Name
+                break
+            end
+        end
+        clearSince = loading and nil or (clearSince or os.clock())
+        -- Never start/require Client while the game's loader is visible. Its
+        -- initialization can wait on its own callbacks, blocking our timeout.
+        -- Read only native dependencies already loaded by the game, after the
+        -- GUI clears. A separate task bounds even an executor's yielding require.
+        if clearSince and os.clock() - clearSince >= 0.75 and not probeRunning
+            and not playerData and os.clock() >= nextProbe then
+            nextProbe = os.clock() + 0.5
+            local modulesLoaded = type(getloadedmodules) ~= "function"
+            if not modulesLoaded then
+                local ok, loaded = pcall(getloadedmodules)
+                if ok and type(loaded) == "table" then
+                    local enumLoaded, dataLoaded = false, false
+                    for _, object in pairs(loaded) do
+                        enumLoaded = enumLoaded or object == enumModule
+                        dataLoaded = dataLoaded or object == playerDataModule
+                    end
+                    modulesLoaded = enumLoaded and dataLoaded
+                end
+            end
+            waitReason = "native enum/data initialization"
+            if modulesLoaded then
+                probeRunning = true
+                probeThread = task.spawn(function()
+                    local ok, result = requireNative(enumModule)
+                    if ok and type(result) == "table" and result._enum_builder_complete == true then
+                        enumLibrary = result
+                        local dataOk, controller = requireNative(playerDataModule)
+                        if dataOk and type(controller) == "table" then playerData = controller end
+                    end
+                    probeRunning = false
+                end)
+            end
+        end
+        local data = playerData and playerData.CurrentData
+        local ready = data and type(data.Data) == "table"
+            and enumLibrary and enumLibrary._enum_builder_complete == true
+        if ready and clearSince and os.clock() - clearSince >= 0.75 then
+            stopWatchingLoadingGui()
+            env.__PlexStartupWaitReady = {JobId = game.JobId, Player = player, At = os.clock()}
+            return true
+        end
+        if os.clock() >= deadline then
+            stopWatchingLoadingGui()
+            if probeRunning and probeThread and task.cancel then pcall(task.cancel, probeThread) end
+            warn("[Plex] Startup timed out waiting for " .. waitReason .. ". Rejoin a fresh game before retrying.")
+            return false
+        end
+        task.wait(0.2)
+    until false
 end
 
 if not waitForLoadingScreen() then
-	local env = getgenv and getgenv() or _G
-	env.__PlexRunning = nil
-	env.__PlexAutoExecStarted = nil
-	return
+    local env = getgenv and getgenv() or _G
+    env.__PlexRunning = nil
+    env.__PlexAutoExecStarted = nil
+    return
 end
 -- END PLEX STARTUP WAIT
 
-    if (getgenv and getgenv() or _G).__PlexAutoExecStarted or (getgenv and getgenv() or _G).__PlexRunning then return end
+    local bootEnv = getgenv and getgenv() or _G
+    if bootEnv.__PlexRunningJobId and bootEnv.__PlexRunningJobId ~= game.JobId then
+        bootEnv.__PlexRunning, bootEnv.__PlexAutoExecStarted, bootEnv.__PlexRunningJobId = nil, nil, nil
+        bootEnv.__PlexTPHandlerBoot, bootEnv.__PlexExpectedBootToken, bootEnv.__PlexRuntimeReadyToken = nil, nil, nil
+    end
+    if bootEnv.__PlexAutoExecStarted or bootEnv.__PlexRunning then return end
     local shouldLoad = false
     if type(readfile) == "function" and type(isfile) == "function" and isfile("Overlay/autoload.json") then
         local ok, state = pcall(function()
@@ -1425,6 +1430,18 @@ end
         and os.clock() - (tonumber(activeBoot.StartedAt) or 0) < 180 then
         return
     end
+    local bootToken = destinationKey .. ":" .. tostring(os.clock())
+    -- Reserve before the resolver can yield for a licensed HTTP request.
+    env.__PlexTPHandlerBoot = {Key = destinationKey, Token = bootToken, StartedAt = os.clock()}
+    local function releaseBoot()
+        if type(env.__PlexTPHandlerBoot) == "table" and env.__PlexTPHandlerBoot.Token == bootToken then
+            env.__PlexTPHandlerBoot = nil
+            if env.__PlexExpectedBootToken == bootToken then
+                env.__PlexExpectedBootToken, env.__PlexRuntimeReadyToken = nil, nil
+                env.__PlexRunning, env.__PlexAutoExecStarted, env.__PlexRunningJobId = nil, nil, nil
+            end
+        end
+    end
     local function writeStatus(phase)
         pcall(function()
             if type(writefile) == "function" then
@@ -1441,9 +1458,10 @@ end
     local source
     if isfile and readfile and isfile("Overlay/plex_entry_resolver.lua") then
         local resolver,err=loadstring(readfile("Overlay/plex_entry_resolver.lua"),"PlexEntryResolver")
-        if not resolver then writeStatus("resolver-failed");warn(err);return end
-        local resolved,why=resolver()()
-        if type(resolved)~="string" then writeStatus("entry-missing");warn(why);return end
+        if not resolver then releaseBoot();writeStatus("resolver-failed");warn(err);return end
+        local resolvedOk,resolved,why=pcall(function() return resolver()() end)
+        if not resolvedOk then releaseBoot();writeStatus("resolver-failed");warn("[Plex TPHandler] "..tostring(resolved));return end
+        if type(resolved)~="string" then releaseBoot();writeStatus("entry-missing");warn(why);return end
         source=resolved
     end
     if not source and type(readfile) == "function" and type(isfile) == "function" and isfile("Overlay/plex_main.lua") then
@@ -1454,6 +1472,7 @@ end
         source = env.__PlexMainSource
     end
     if type(source) ~= "string" or source == "" then
+        releaseBoot()
         writeStatus("cache-missing")
         warn("[Plex TPHandler] cached main.lua is unavailable")
         return
@@ -1461,20 +1480,17 @@ end
 
     local chunk, compileError = loadstring(source, "plex.cc TPHandler")
     if not chunk then
+        releaseBoot()
         writeStatus("compile-failed")
         warn("[Plex TPHandler] " .. tostring(compileError))
         return
     end
 
-    local bootToken = destinationKey .. ":" .. tostring(os.clock())
-    env.__PlexTPHandlerBoot = {Key = destinationKey, Token = bootToken, StartedAt = os.clock()}
     env.__PlexExpectedBootToken = bootToken
     env.__PlexRuntimeReadyToken = nil
     local ran, runError = pcall(chunk)
     if not ran then
-        if type(env.__PlexTPHandlerBoot) == "table" and env.__PlexTPHandlerBoot.Token == bootToken then
-            env.__PlexTPHandlerBoot = nil
-        end
+        releaseBoot()
         writeStatus("run-failed")
         warn("[Plex TPHandler] " .. tostring(runError))
     else
@@ -1487,9 +1503,7 @@ end
         if env.__PlexRuntimeReadyToken == bootToken then
             writeStatus("loaded")
         else
-            if type(env.__PlexTPHandlerBoot) == "table" and env.__PlexTPHandlerBoot.Token == bootToken then
-                env.__PlexTPHandlerBoot = nil
-            end
+            releaseBoot()
             writeStatus("init-timeout")
             warn("[Plex TPHandler] runtime did not finish initializing; the next auto-load may retry")
         end

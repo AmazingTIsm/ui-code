@@ -2452,8 +2452,8 @@ local Library = { } do
 
         Items.Search = MakeFrame({
             Parent = Items.TopBar.Instance,
-            Pos = UDim2.fromOffset(50, 11),
-            Size = UDim2.fromOffset(280, 30),
+            Pos = UDim2.new(1,-388,0,7),
+            Size = UDim2.fromOffset(136, 26),
             Color = "Element",
             Round = 5,
             Z = 3
@@ -2467,6 +2467,13 @@ local Library = { } do
             Color = "DimText",
             Z = 4
         })
+
+        Items.Breadcrumb=MakeText({Parent=Items.TopBar.Instance,Text="",TextSize=11,
+            Pos=UDim2.fromOffset(50,30),Size=UDim2.new(1,-230,0,16),Color="DimText",Truncate=true,Z=4})
+        Items.Breadcrumb.Instance.Name="PlexBreadcrumb"
+        function Window:UpdateBreadcrumb(Tab,Sub)
+            if Tab then Items.Breadcrumb.Instance.Text=string.lower((Tab.Category or "Other").." / "..Tab.Name.." / "..(Sub and Sub.Name or "")) end
+        end
 
         Items.SearchBox = MakeInput({
             Parent = Items.Search.Instance,
@@ -2483,7 +2490,7 @@ local Library = { } do
             TextSize = 15,
             Anchor = Vector2.new(1, 0),
             Pos = UDim2.new(1, -56, 0, 8),
-            Size = UDim2.fromOffset(240, 18),
+            Size = UDim2.fromOffset(180, 18),
             Color = "Text",
             Align = Enum.TextXAlignment.Right,
             Truncate = true,
@@ -3176,6 +3183,7 @@ local Library = { } do
         local Window = Self
 
         local Tab = {
+            Category = Params.Category or "Other",
             Name = Params.Name or "Tab",
             Icon = Params.Icon or "circle",
             Window = Window,
@@ -3631,6 +3639,7 @@ local Library = { } do
         end
 
         function SubTab:Show()
+            Window:UpdateBreadcrumb(Tab,SubTab)
             SubTab.ShowToken += 1
 
             local Token = SubTab.ShowToken
@@ -3734,6 +3743,7 @@ local Library = { } do
         end
 
         function SubTab:SnapVisible()
+            Window:UpdateBreadcrumb(Tab,SubTab)
             SubTab.ShowToken += 1
             SubTab.Active = true
 
@@ -3815,7 +3825,7 @@ local Library = { } do
         })
 
         local HeaderTextW = math.ceil(MeasureText(Section.Name, 15, 240, UiFont).X)
-        local HeaderW = HeaderTextW + 26
+        local HeaderW = Column.Width
 
         Items.Header = MakeFrame({
             Parent = Items.Holder.Instance,
@@ -3836,8 +3846,10 @@ local Library = { } do
 
         Items.Label = MakeText({
             Parent = Items.Header.Instance,
-            Text = Section.Name,
-            TextSize = 15,
+            Text = string.lower(Section.Name),
+            TextSize = 14,
+            Font = UiFontBold,
+            Truncate = true,
             Anchor = Vector2.new(0, 0.5),
             Pos = UDim2.new(0, 13, 0.5, 1),
             Size = UDim2.fromOffset(HeaderTextW + 6, 20),
@@ -3850,9 +3862,9 @@ local Library = { } do
             if Bounds <= 0 then return end
 
             HeaderTextW = Bounds
-            HeaderW = Bounds + 26
+            HeaderW = Column.Width
 
-            Items.Label.Instance.Size = UDim2.fromOffset(Bounds + 6, 20)
+            Items.Label.Instance.Size = UDim2.fromOffset(math.max(40,Column.Width-26), 20)
             Items.Header.Instance.Size = UDim2.fromOffset(HeaderW, 25)
             Items.HeaderFill.Instance.Size = UDim2.fromOffset(HeaderW, 10)
         end
@@ -3877,6 +3889,9 @@ local Library = { } do
             Z = 3
         })
 
+        Library:Create("UIStroke",{Parent=Items.Header.Instance,Color=Library.Theme.Line,Thickness=1,Transparency=0.45}):AddToTheme({Color="Line"})
+        Library:Create("UIStroke",{Parent=Items.Frame.Instance,Color=Library.Theme.Line,Thickness=1,Transparency=0.45}):AddToTheme({Color="Line"})
+        Items.BodyFill.Instance.Size=UDim2.fromOffset(Column.Width,10)
         Section.Items = Items
 
         function Section:Reflow()
