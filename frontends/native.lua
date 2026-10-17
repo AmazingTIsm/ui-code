@@ -7823,7 +7823,7 @@ local Configs = {active="",list=function() return {} end,isDirty=function() retu
     Menu.buildPreview = function() end
     Menu.buildHitboxPanel = function() end
     UI.PAGE_SUBTABS={
-        main={"aimbot","silent aim","triggerbot","weapon","movement"},rage={"ragebot","priority"},melee={"combat","reach","targets"},world={"lighting","atmosphere","sky","effects","camera"},
+        main={"aimbot","silent aim","triggerbot","weapon","movement"},rage={"ragebot","priority","dsynvc"},melee={"combat","reach","targets"},world={"lighting","atmosphere","sky","effects","camera"},
         esp={"options","appearance","highlight","preview"},skins={"skin","wrap","charm","finisher","gun animations","emotes","unlock all"},customcosmetics={"skin","wrap","charm","finisher","emote"},inventoryspoofer={"cosmetics","boxes"},visuals={"weapons / viewmodels","crosshair","effects","sounds","hud"},
         character={"movement","character","animations"},misc={"general","loadout","queue","chat","ranks/ranked","overlays / extras"},
         spoofers={"spoofers","enemy spoofer","device","marketplace"},settings={"menu","configs","script","themes"},
@@ -7833,7 +7833,7 @@ local Configs = {active="",list=function() return {} end,isDirty=function() retu
         local text=string.lower(title or "")
         local rules={
             main={{{"silent"},"silent aim"},{{"aim","target"},"aimbot"},{{"trigger","click"},"triggerbot"},{{"weapon"},"weapon"},{{"move","speed","fly"},"movement"}},
-            rage={{{"priority"},"priority"}},
+            rage={{{"orbit","anti aim","desync","dsynvc"},"dsynvc"},{{"priority"},"priority"}},
             melee={{{"reach","hitbox"},"reach"},{{"target","team","dummy"},"targets"},{{"melee","backstab","attack","impact","combat"},"combat"}},
             world={{{"camera","stretch"},"camera"},{{"sky","weather","ambience"},"sky"},{{"bloom","sun","effect"},"effects"},{{"atmosphere","color correction"},"atmosphere"}},
             esp={{{"preview"},"preview"},{{"appearance","override","custom"},"appearance"},{{"highlight"},"highlight"}},

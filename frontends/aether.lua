@@ -5161,7 +5161,7 @@ end
 
 local PAGE_SUBTABS={
     info={"overview"},
-    main={"aimbot","silent aim","triggerbot","weapon","movement"},rage={"ragebot","priority"},melee={"combat","reach","targets"},
+    main={"aimbot","silent aim","triggerbot","weapon","movement"},rage={"ragebot","priority","dsynvc"},melee={"combat","reach","targets"},
     world={"lighting","atmosphere","sky","effects","camera"},esp={"options","appearance","highlight","preview"},
     skins={"skin","wrap","charm","finisher","gun animations","emotes","unlock all"},visuals={"weapons / viewmodels","crosshair","effects","sounds","hud"},
     character={"movement","character","animations"},misc={"general","loadout","queue","chat","ranks/ranked","overlays / extras"},
@@ -5171,7 +5171,7 @@ local function pageSubtab(page,title)
     local text=string.lower(title or "")
     local rules={
         main={{{"silent"},"silent aim"},{{"aim","target"},"aimbot"},{{"trigger","click"},"triggerbot"},{{"weapon"},"weapon"},{{"move","speed","fly"},"movement"}},
-        rage={{{"priority"},"priority"}},melee={{{"reach","hitbox"},"reach"},{{"target","team","dummy"},"targets"}},
+        rage={{{"orbit","anti aim","desync","dsynvc"},"dsynvc"},{{"priority"},"priority"}},melee={{{"reach","hitbox"},"reach"},{{"target","team","dummy"},"targets"}},
         world={{{"camera","stretch"},"camera"},{{"sky","weather","ambience"},"sky"},{{"bloom","sun","effect"},"effects"},{{"atmosphere","color correction"},"atmosphere"}},
         esp={{{"preview"},"preview"},{{"appearance","override","custom"},"appearance"},{{"highlight"},"highlight"}},
         skins={{{"unlock","ownership"},"unlock all"},{{"animation"},"gun animations"},{{"emote"},"emotes"},{{"finish"},"finisher"},{{"charm"},"charm"},{{"wrap"},"wrap"}},
@@ -5192,7 +5192,7 @@ local ICONS={main="crosshair",rage="skull",melee="swords",world="globe",esp="sca
 local PAGE_NAMES={ranks="ranks",customcosmetics="custom cosmetics",inventoryspoofer="inventory spoofer",weaponconfigs="weapon configs"}
 local SUB_ICONS={
     main={["aimbot"]="crosshair",["silent aim"]="mouse-pointer-2",triggerbot="zap",weapon="target",movement="move"},
-    rage={ragebot="flame",priority="list-filter"},
+    rage={ragebot="flame",priority="list-filter",dsynvc="orbit"},
     melee={combat="swords",reach="maximize-2",targets="users"},
     world={lighting="sun",atmosphere="cloud",sky="cloud-sun",effects="sparkles",camera="camera"},
     esp={options="scan",appearance="palette",highlight="highlighter",preview="eye"},
