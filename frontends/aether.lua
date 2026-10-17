@@ -5882,6 +5882,10 @@ function saveManager:Load(name)
         return false,"Could not read config: "..tostring(data)
     end
 
+    local function ignored(id)
+        return id=="NativeConfigName" or id=="SaveManager_ConfigList" or id=="NativeAutoLoad" or id=="NativeSilentLoad"
+            or (self.Ignore and self.Ignore[id]) or (self.IgnoreTheme and id=="NativeTheme")
+    end
     self.Loading=true
     local appliedCount, failedCount, firstError = 0, 0, nil
     local applied,applyError=pcall(function()
@@ -5892,7 +5896,7 @@ function saveManager:Load(name)
             and type(Library.NativeUI.applySavedBindings)=="function" then
             local bindings,states={},{}
             for id,binding in pairs(data.bindings) do
-                if not (self.Ignore and self.Ignore[id]) then
+                if not ignored(id) then
                     bindings[id]=binding
                     if data.bindingStates then states[id]=data.bindingStates[id] end
                 end
@@ -5903,7 +5907,7 @@ function saveManager:Load(name)
             local toggles={}
             local function applyEntry(entry)
                 local object=options[entry.idx]
-                if not object or (self.Ignore and self.Ignore[entry.idx]) then return end
+                if not object or ignored(entry.idx) then return end
                 local ok,err=pcall(function()
                     if object.Type=="ColorPicker" then
                         object:SetValueRGB(Color3.fromHex(entry.value),entry.transparency)
@@ -5933,7 +5937,7 @@ function saveManager:Load(name)
             -- A saved toggle is applied after its key, then persistent modes win.
             for _,entry in ipairs(data.objects) do
                 local object=options[entry.idx]
-                if object and object.Type=="KeyPicker" and not (self.Ignore and self.Ignore[entry.idx])
+                if object and object.Type=="KeyPicker" and not ignored(entry.idx)
                     and (object.Mode=="Always" or object.Mode=="Never" or object.Mode=="Hold") then
                     local ok,err=pcall(object.SetMode,object,object.Mode)
                     if not ok then failedCount+=1 firstError=firstError or (tostring(entry.idx)..": "..tostring(err)) end
@@ -5942,7 +5946,7 @@ function saveManager:Load(name)
         else
             for id,value in pairs(data) do
                 local object=options[id]
-                if object and type(value)=="table" then
+                if object and not ignored(id) and type(value)=="table" then
                     local ok,err=pcall(function()
                         if value.Color then object:SetValueRGB(Color3.new(table.unpack(value.Color)),value.Transparency)
                         elseif value.Value~=nil then object:SetValue(value.Value) end
