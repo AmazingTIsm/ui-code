@@ -7725,11 +7725,19 @@ function saveManager:ArmTPHandler(force)
         warn("[Plex TPHandler] local main.lua source is unavailable; execute the current main.lua or loader.lua first")
         return false
     end
-    if type(writefile) ~= "function" then
+    if type(writefile) ~= "function" or type(readfile) ~= "function" or type(isfile) ~= "function" then
         self.TPHandlerArmed = false
-        warn("[Plex TPHandler] file writing is unavailable")
+        warn("[Plex TPHandler] file read/write APIs are unavailable")
         return false
     end
+    local cacheKey=table.concat({tostring(env.__PlexBuildId),tostring(env.__PlexEntryMode),
+        tostring(env.__PlexLicensedEntry),tostring(env.__PlexLicenseOrigin),tostring(env.__PlexDevEntryPath),tostring(env.__PlexSourceRoot)},"|")
+    local cachePresent=false
+    if self.TPHandlerCachedSource==mainSource and self.TPHandlerCacheKey==cacheKey then
+        local ok,present=pcall(function()return isfile("Overlay/plex_main.lua") and isfile("Overlay/plex_entry_resolver.lua") end)
+        cachePresent=ok and present
+    end
+    if not cachePresent then
     local cached, cacheError = pcall(function()
         if type(makefolder)=="function" and type(isfolder)=="function" and not isfolder("Overlay") then makefolder("Overlay") end
         writefile("Overlay/plex_main.lua", mainSource)
@@ -7749,32 +7757,22 @@ function saveManager:ArmTPHandler(force)
         return false
     end
 
-    local tpHandler
-    local okResolve = pcall(function()
-        -- Some executors expose these through the current environment rather than
-        -- as raw keys in getgenv(), so prefer normal global resolution first.
-        tpHandler = queue_on_teleport or queueonteleport
-
-        if type(tpHandler) ~= "function" then
-            local env = getgenv and getgenv() or _G
-            tpHandler = env.queue_on_teleport or env.queueonteleport
-
-            local synTable = env.syn or _G.syn
-            if type(tpHandler) ~= "function" and type(synTable) == "table" then
-                tpHandler = synTable.queue_on_teleport
-            end
-
-            local fluxusTable = env.fluxus or _G.fluxus
-            if type(tpHandler) ~= "function" and type(fluxusTable) == "table" then
-                tpHandler = fluxusTable.queue_on_teleport
-            end
-        end
-    end)
-
-    if not okResolve or type(tpHandler) ~= "function" then
-        self.TPHandlerArmed = false
-        return false
+        self.TPHandlerCachedSource,self.TPHandlerCacheKey=mainSource,cacheKey
     end
+    local tpHandlers,seenHandlers={},{}
+    local function addHandler(name,callback)
+        if type(callback)=="function" and not seenHandlers[callback] then
+            seenHandlers[callback]=true;tpHandlers[#tpHandlers+1]={Name=name,Callback=callback}
+        end
+    end
+    addHandler("queue_on_teleport",queue_on_teleport)
+    addHandler("queueonteleport",queueonteleport)
+    addHandler("env.queue_on_teleport",env.queue_on_teleport)
+    addHandler("env.queueonteleport",env.queueonteleport)
+    for _,scope in pairs({syn,env.syn,_G.syn,fluxus,env.fluxus,_G.fluxus}) do
+        if type(scope)=="table" then addHandler("executor.queue_on_teleport",scope.queue_on_teleport) end
+    end
+    if #tpHandlers==0 then self.TPHandlerArmed=false;return false end
 
     local queuedSource = [==[
 task.spawn(function()
@@ -8036,8 +8034,32 @@ end
 end)
 ]==]
 
-    local okQueue, queueResult = pcall(tpHandler, queuedSource)
-    self.TPHandlerArmed = okQueue and queueResult ~= false
+    if self.TPHandlerBootSource~=queuedSource or not isfile("Overlay/plex_teleport_boot.lua") then
+        local ok,why=pcall(writefile,"Overlay/plex_teleport_boot.lua",queuedSource)
+        if not ok then self.TPHandlerArmed=false;warn("[Plex TPHandler] "..tostring(why));return false end
+        self.TPHandlerBootSource=queuedSource
+    end
+    local queueEntry=[==[
+local function status(value)
+    if writefile then pcall(writefile,"Overlay/tphandler_status.txt",value.."|"..tostring(game.PlaceId).."|"..tostring(game.JobId)) end
+end
+status("queue-entered")
+local ok,source=pcall(function()return readfile("Overlay/plex_teleport_boot.lua")end)
+if not ok or type(source)~="string" then status("boot-file-missing");warn("[Plex TPHandler] cached boot file missing");return end
+local chunk,err=loadstring(source,"PlexTeleportBoot")
+if not chunk then status("boot-compile-failed");warn(err);return end
+local ran,why=pcall(chunk)
+if not ran then status("boot-run-failed");warn(why) end
+]==]
+    self.TPHandlerArmed=false
+    for _,handler in ipairs(tpHandlers) do
+        local ok,accepted=pcall(handler.Callback,queueEntry)
+        if ok and accepted~=false then
+            self.TPHandlerArmed=true;self.TPHandlerAPI=handler.Name;break
+        end
+    end
+    pcall(writefile,"Overlay/queue_submit_status.txt",(self.TPHandlerArmed and "accepted" or "rejected")
+        .."|"..tostring(self.TPHandlerAPI).."|"..tostring(env.__PlexBuildId).."|"..tostring(game.JobId))
     return self.TPHandlerArmed
 end
 
