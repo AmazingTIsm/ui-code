@@ -4765,27 +4765,49 @@ return function()
         end
         entry.Writing=false
     end
+    local function active(role)
+        local choice=state[role]
+        return choice.Font~="Theme default"or choice.Size>0 or choice.CustomColor or choice.Text~=""
+    end
+    local function restore(object,entry)
+        entry.Writing=true
+        for property,value in pairs(entry.Native)do if object[property]==entry.Applied[property]then object[property]=value end end
+        entry.Writing=false
+    end
+    local function configure(object,entry)
+        if not active(entry.Role)then
+            if entry.Active then
+                restore(object,entry)
+                for _,c in ipairs(entry.StyleConnections)do c:Disconnect()end
+                entry.StyleConnections={};entry.Active=false
+            end
+            return
+        end
+        if not entry.Active then
+            entry.Active=true
+            local properties={"FontFace","TextSize","TextColor3"}
+            if entry.Role=="Window title"or entry.Role=="Subtitle"then properties[#properties+1]="Text"end
+            for _,property in ipairs(properties)do
+                entry.Native[property]=object[property]
+                entry.StyleConnections[#entry.StyleConnections+1]=object:GetPropertyChangedSignal(property):Connect(function()
+                    if not alive or entry.Writing or object[property]==entry.Applied[property]then return end
+                    entry.Native[property]=object[property]
+                    apply(object,entry)
+                end)
+            end
+        end
+        apply(object,entry)
+    end
     function manager:Track(object)
         if not alive or entries[object]or not(object:IsA("TextLabel")or object:IsA("TextButton")or object:IsA("TextBox"))then return end
-        local entry={Role=classify(object),Native={},Applied={},Connections={}}
+        local entry={Role=classify(object),Native={},Applied={},StyleConnections={},Active=false}
         entries[object]=entry
-        local properties={"FontFace","TextSize","TextColor3"}
-        if entry.Role=="Window title"or entry.Role=="Subtitle"then properties[#properties+1]="Text"end
-        for _,property in ipairs(properties)do
-            entry.Native[property]=object[property]
-            entry.Connections[#entry.Connections+1]=object:GetPropertyChangedSignal(property):Connect(function()
-                if not alive or entry.Writing or object[property]==entry.Applied[property]then return end
-                entry.Native[property]=object[property]
-                local choice=state[entry.Role]
-                if choice.Font=="Theme default"and choice.Size==0 and not choice.CustomColor and choice.Text==""then return end
-                apply(object,entry)
-            end)
-        end
-        entry.Connections[#entry.Connections+1]=object.Destroying:Connect(function()
-            for _,c in ipairs(entry.Connections)do c:Disconnect()end
+        entry.DestroyConnection=object.Destroying:Connect(function()
+            for _,c in ipairs(entry.StyleConnections)do c:Disconnect()end
+            entry.DestroyConnection:Disconnect()
             entries[object]=nil
         end)
-        apply(object,entry)
+        configure(object,entry)
     end
     local watched={}
     function manager:Watch(root)
@@ -4799,11 +4821,12 @@ return function()
     end
     function manager:Set(role,key,value)
         local choice=assert(state[role],"Unknown text role")
+        if choice[key]==value then return end
         if key=="Font"then assert(table.find(fonts,value),"Unknown font")
         elseif key=="Size"then value=math.clamp(tonumber(value)or 0,0,32)
         elseif key=="Text"then assert(role=="Window title"or role=="Subtitle");value=tostring(value or "")end
         choice[key]=value
-        for object,entry in pairs(entries)do if entry.Role==role then apply(object,entry)end end
+        for object,entry in pairs(entries)do if entry.Role==role then configure(object,entry)end end
     end
     function manager:AddSettings(tab,defaultColor)
         local left=tab:AddLeftGroupbox("Text fonts and sizes")
@@ -4826,8 +4849,9 @@ return function()
         alive=false
         for _,c in ipairs(connections)do c:Disconnect()end
         for object,entry in pairs(entries)do
-            for _,c in ipairs(entry.Connections)do c:Disconnect()end
-            pcall(function()for property,value in pairs(entry.Native)do if object[property]==entry.Applied[property]then object[property]=value end end end)
+            entry.DestroyConnection:Disconnect()
+            for _,c in ipairs(entry.StyleConnections)do c:Disconnect()end
+            pcall(restore,object,entry)
         end
         table.clear(entries)
     end
