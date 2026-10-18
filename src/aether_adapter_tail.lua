@@ -1,4 +1,5 @@
 local context = ... or {}
+local typography=assert(loadstring(typographySource,"PlexTypography"))()()
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -442,7 +443,7 @@ local PAGE_SUBTABS={
     world={"lighting","atmosphere","sky","effects","camera"},esp={"options","appearance","highlight","preview"},
     skins={"skin","wrap","charm","finisher","gun animations","emotes","unlock all"},visuals={"weapons / viewmodels","crosshair","effects","sounds","hud"},
     character={"movement","character","animations"},misc={"general","loadout","queue","chat","ranks/ranked","overlays / extras"},
-    spoofers={"spoofers","enemy spoofer","device","marketplace"},ranks={"enemy ranks","ranked access","auto ban"},customcosmetics={"skin","wrap","charm","finisher","emote"},inventoryspoofer={"cosmetics","boxes"},settings={"menu","configs","script","themes"},weaponconfigs={"presets"},servers={"browser"},optimizations={"general"},
+    spoofers={"spoofers","enemy spoofer","device","marketplace"},ranks={"enemy ranks","ranked access","auto ban"},customcosmetics={"skin","wrap","charm","finisher","emote"},inventoryspoofer={"cosmetics","boxes"},settings={"menu","text","configs","script","themes"},weaponconfigs={"presets"},servers={"browser"},optimizations={"general"},
 }
 local function pageSubtab(page,title)
     local text=string.lower(title or "")
@@ -457,7 +458,7 @@ local function pageSubtab(page,title)
         visuals={{{"viewmodel","weapon"},"weapons / viewmodels"},{{"crosshair"},"crosshair"},{{"sound"},"sounds"},{{"tracer","effect"},"effects"},{{"target","indicator","hud"},"hud"}},
         character={{{"animation"},"animations"}},misc={{{"input overlay","input sounds","music player"},"overlays / extras"},{{"rank","lobby info"},"ranks/ranked"},{{"load"},"loadout"},{{"queue","ban"},"queue"},{{"chat"},"chat"}},
         ranks={{{"access","preview"},"ranked access"},{{"ban"},"auto ban"},{{"rank","lobby info"},"enemy ranks"}},
-        spoofers={{{"robux","gifting","marketplace"},"marketplace"},{{"enemy"},"enemy spoofer"},{{"device"},"device"}},settings={{{"script","auto load"},"script"},{{"config"},"configs"},{{"theme"},"themes"}},
+        spoofers={{{"robux","gifting","marketplace"},"marketplace"},{{"enemy"},"enemy spoofer"},{{"device"},"device"}},settings={{{"text fonts","text colors"},"text"},{{"script","auto load"},"script"},{{"config"},"configs"},{{"theme"},"themes"}},
     }
     for _,rule in ipairs(rules[page] or {}) do
         for _,word in ipairs(rule[1]) do if text:find(word,1,true) then return rule[2] end end
@@ -480,7 +481,7 @@ local SUB_ICONS={
     character={movement="person-standing",character="user-round",animations="activity"},
     misc={general="wrench",loadout="package",queue="list-ordered",chat="message-square",["ranks/ranked"]="medal",["overlays / extras"]="keyboard"},
     spoofers={spoofers="venetian-mask",["enemy spoofer"]="user-x",device="smartphone"},
-    settings={menu="panel-left",configs="folder-cog",script="code-2",themes="palette"},
+    settings={menu="panel-left",text="type",configs="folder-cog",script="code-2",themes="palette"},
     optimizations={general="gauge"},
 }
 local ZWindow
@@ -601,6 +602,8 @@ function Library:CreateWindow(config)
     Aether.WindowHeight=620
     ZWindow=Aether:Window({Name="plex.cc DEV",Icon=BRAND_ICON,Accent=Color3.fromRGB(73,145,255)})
     self.ScreenGui=Aether.ScreenGui
+    for _,root in ipairs(Aether.TypographyRoots or {self.ScreenGui})do typography:Watch(root)end
+    if shared.Modern then typography:Watch(shared.Modern.MainScreenGui)end
     refreshThemeArt=function()end
     local originalOpen=ZWindow.SetOpen
     function ZWindow:SetOpen(value)
@@ -671,6 +674,7 @@ function Library:CreateWindow(config)
         function tab:AddRightTabbox() return tabbox(2) end
         window.Tabs[name]=tab Library.Tabs=window.Tabs
         if name=="settings" then
+            typography:AddSettings(tab,UI.C.text)
             local overlays=tab:AddLeftGroupbox("Overlay visibility")
             overlays:AddToggle("PlexShowWatermark",{Text="Show watermark",Default=true,Callback=function(value) fire("OverlayVisibilityChanged","Watermark",value) end})
             overlays:AddToggle("PlexShowKeybindList",{Text="Show keybind list",Default=true,Callback=function(value) fire("OverlayVisibilityChanged","KeybindList",value) end})
@@ -795,6 +799,7 @@ function Library:Toggle()
     if ZWindow then Library:SetVisible(not ZWindow.IsOpen) end
 end
 function Library:Unload()
+    typography:Destroy()
     mobileAlive=false
     mobileSaveToken+=1
     if mobileHolder then saveMobilePositions() end

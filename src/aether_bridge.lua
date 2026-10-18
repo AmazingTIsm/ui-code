@@ -306,6 +306,7 @@ local function createAetherBridge(native)
         native.Items.Instance.Name="PlexAetherUI"
         native.Items.Instance.DisplayOrder=100000
         self.ScreenGui=native.Items.Instance
+        self.TypographyRoots={native.Items.Instance,native.Elements.Instance,native.HUD.Instance}
         native.Elements.Instance.DisplayOrder=100001
         native.HUD.Instance.DisplayOrder=99999
         window.Items.KeybindList.Instance.Visible=false

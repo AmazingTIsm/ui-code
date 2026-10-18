@@ -358,7 +358,7 @@ getgenv().__PlexAetherVendor = {
     Library.Resizify = function(self)
         local Instance = self.Instance
 
-        local Resizing = Library:Create("TextButton", {
+        local Resizing = Library:Create("TextButton", {Name="PlexRole_Buttons"; 
             Position = UDim2.new(1, -10, 1, -10);
             Size = UDim2.new(0, 10, 0, 10);
             BorderSizePixel = 0;
@@ -560,7 +560,7 @@ getgenv().__PlexAetherVendor = {
                     BorderSizePixel = 0
                 })
 
-                Items.Text = Library:Create( "TextLabel", {
+                Items.Text = Library:Create( "TextLabel", {Name="PlexRole_Values"; 
                     FontFace = Themes.Preset.Font;
                     TextColor3 = Color3.fromRGB(252, 252, 252);
                     Text = Cfg.Text;
@@ -604,7 +604,7 @@ getgenv().__PlexAetherVendor = {
             })
 
             do -- Element clicker
-                Items.Colorpicker = Library:Create( "TextButton", {
+                Items.Colorpicker = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                     Parent = Library.Other.Instance;
                     Position = UDim2.new(0.04664722830057144, 0, 0.17076167464256287, 0);
                     Size = UDim2.new(0, 221, 0, 257);
@@ -622,7 +622,7 @@ getgenv().__PlexAetherVendor = {
                     CornerRadius = UDim.new(0, 10)
                 })
 
-                Items.Title = Library:Create( "TextLabel", {
+                Items.Title = Library:Create( "TextLabel", {Name="PlexRole_Labels"; 
                     FontFace = Themes.Preset.Font;
                     TextColor3 = Themes.Preset["TextColor"];
                     Text = "Colorpicker";
@@ -1551,7 +1551,7 @@ getgenv().__PlexAetherVendor = {
                 BorderSizePixel = 0
             })
 
-            Items.BrandTitle = Library:Create( "TextLabel", {
+            Items.BrandTitle = Library:Create( "TextLabel", {Name="PlexRole_Window title"; 
                 FontFace = Font.fromEnum(Enum.Font.GothamBold);
                 TextSize = 14;
                 TextColor3 = Themes.Preset["TextColor"];
@@ -1573,7 +1573,7 @@ getgenv().__PlexAetherVendor = {
                 Position=UDim2.fromOffset(130,62),ZIndex=2,Parent=Items.Topbar.Instance}):Themify("Accent","TextColor3"):Themify("Accent","BackgroundColor3")
             Library:Create("UICorner",{CornerRadius=UDim.new(0,4),Parent=buildBadge.Instance})
 
-            Items.Subtitle = Library:Create( "TextLabel", {
+            Items.Subtitle = Library:Create( "TextLabel", {Name="PlexRole_Subtitle"; 
                 FontFace = Font.fromEnum(Enum.Font.Gotham);
                 TextSize = 10;
                 TextColor3 = Themes.Preset["Unselected"];
@@ -1614,7 +1614,7 @@ getgenv().__PlexAetherVendor = {
             Items.UIStroke = Library:Create("UIStroke",{Color = Color3.fromRGB(23, 24, 27); Parent = Items.KeybindList.Instance})
             Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 2); PaddingBottom = UDim.new(0, 2); Parent = Items.KeybindList.Instance; PaddingRight = UDim.new(0, 2); PaddingLeft = UDim.new(0, 2)})
             Items.UICorner = Library:Create("UICorner",{Parent = Items.KeybindList.Instance})
-            Items.Titles = Library:Create("TextLabel",{LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = "Keybinds"; Parent = Items.KeybindList.Instance; AutomaticSize = Enum.AutomaticSize.XY; Position = UDim2.new(0, 0, 0, 3); BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Left; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+            Items.Titles = Library:Create("TextLabel",{Name="PlexRole_Overlay titles"; LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = "Keybinds"; Parent = Items.KeybindList.Instance; AutomaticSize = Enum.AutomaticSize.XY; Position = UDim2.new(0, 0, 0, 3); BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Left; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
             Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 4); PaddingBottom = UDim.new(0, 6); Parent = Items.Titles.Instance; PaddingRight = UDim.new(0, 5); PaddingLeft = UDim.new(0, 7)})
             Items.Filler = Library:Create("Frame",{Parent = Items.KeybindList.Instance; Position = UDim2.new(0, -3, 1, -14); Size = UDim2.new(1, 6, 0, 18); BorderSizePixel = 0; BackgroundColor3 = Color3.fromRGB(20, 20, 22)})
             Items.BottomFiller = Library:Create("Frame",{AnchorPoint = Vector2.new(0, 1); Parent = Items.Filler.Instance; Position = UDim2.new(0, 0, 1, 0); Size = UDim2.new(1, 0, 0, 1); BorderSizePixel = 0; BackgroundColor3 = Color3.fromRGB(23, 24, 27)})
@@ -1635,7 +1635,7 @@ getgenv().__PlexAetherVendor = {
             Items.UIStroke = Library:Create("UIStroke",{Color = Color3.fromRGB(23, 24, 27); Parent = Items.ModList.Instance})
             Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 2); PaddingBottom = UDim.new(0, 2); Parent = Items.ModList.Instance; PaddingRight = UDim.new(0, 2); PaddingLeft = UDim.new(0, 2)})
             Items.UICorner = Library:Create("UICorner",{Parent = Items.ModList.Instance})
-            Items.Titles = Library:Create("TextLabel",{LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = "Mods"; Parent = Items.ModList.Instance; AutomaticSize = Enum.AutomaticSize.XY; Position = UDim2.new(0, 0, 0, 3); BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Left; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+            Items.Titles = Library:Create("TextLabel",{Name="PlexRole_Overlay titles"; LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = "Mods"; Parent = Items.ModList.Instance; AutomaticSize = Enum.AutomaticSize.XY; Position = UDim2.new(0, 0, 0, 3); BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Left; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
             Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 4); PaddingBottom = UDim.new(0, 6); Parent = Items.Titles.Instance; PaddingRight = UDim.new(0, 5); PaddingLeft = UDim.new(0, 7)})
             Items.Filler = Library:Create("Frame",{Parent = Items.ModList.Instance; Position = UDim2.new(0, -3, 1, -14); Size = UDim2.new(1, 6, 0, 18); BorderSizePixel = 0; BackgroundColor3 = Color3.fromRGB(20, 20, 22)})
             Items.BottomFiller = Library:Create("Frame",{AnchorPoint = Vector2.new(0, 1); Parent = Items.Filler.Instance; Position = UDim2.new(0, 0, 1, 0); Size = UDim2.new(1, 0, 0, 1); BorderSizePixel = 0; BackgroundColor3 = Color3.fromRGB(23, 24, 27)})
@@ -1668,7 +1668,7 @@ getgenv().__PlexAetherVendor = {
         end)
 
         Items.Watermark = Library:Create("CanvasGroup",{Parent = Library.HUD.Instance; Position = UDim2.new(0, 30, 0, 200); BorderSizePixel = 0; AutomaticSize = Enum.AutomaticSize.XY; BackgroundColor3 = Color3.fromRGB(12, 12, 14)}):Draggify()
-        Items.Title = Library:Create("TextLabel",{LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = Cfg.Text; Parent = Items.Watermark.Instance; BackgroundTransparency = 1; BorderSizePixel = 0; AutomaticSize = Enum.AutomaticSize.XY; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+        Items.Title = Library:Create("TextLabel",{Name="PlexRole_Overlay titles"; LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = Cfg.Text; Parent = Items.Watermark.Instance; BackgroundTransparency = 1; BorderSizePixel = 0; AutomaticSize = Enum.AutomaticSize.XY; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
         Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 5); PaddingBottom = UDim.new(0, 7); Parent = Items.Title.Instance; PaddingRight = UDim.new(0, 8); PaddingLeft = UDim.new(0, 8)})
         Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 2); PaddingBottom = UDim.new(0, 2); Parent = Items.Watermark.Instance; PaddingRight = UDim.new(0, 2); PaddingLeft = UDim.new(0, 2)})
         Items.UICorner = Library:Create("UICorner",{Parent = Items.Watermark.Instance})
@@ -1862,7 +1862,7 @@ getgenv().__PlexAetherVendor = {
                 Items.Icon = Library:CreatePlexIcon(Items.Button.Instance, Cfg.Text,
                     UDim2.new(0,8,0.5,0),18,Themes.Preset.Unselected)
 
-                Items.Title = Library:Create( "TextLabel", {
+                Items.Title = Library:Create( "TextLabel", {Name="PlexRole_Tabs"; 
                     FontFace = Themes.Preset.Font;
                     TextColor3 = Themes.Preset["Unselected"];
                     Text = Cfg.Text;
@@ -2007,7 +2007,7 @@ getgenv().__PlexAetherVendor = {
                     CornerRadius = UDim.new(0, 6)
                 })
 
-                MiscItems.Text = Library:Create( "TextLabel", {
+                MiscItems.Text = Library:Create( "TextLabel", {Name="PlexRole_Tabs"; 
                     FontFace = Themes.Preset.Font;
                     Parent = MiscItems.Button.Instance;
                     TextColor3 = Themes.Preset["Unselected"];
@@ -2247,7 +2247,7 @@ getgenv().__PlexAetherVendor = {
                 BackgroundColor3 = Themes.Preset["SectionBackground"]
             }):Themify("SectionBackground", "BackgroundColor3")
 
-            Library:Create( "TextLabel", {
+            Library:Create( "TextLabel", {Name="PlexRole_Card titles";
                 FontFace = Themes.Preset.Font;
                 TextColor3 = Themes.Preset["Unselected"];
                 Text = Cfg.Title;
@@ -2412,14 +2412,14 @@ getgenv().__PlexAetherVendor = {
         }
 
         local Items = Cfg.Items; do
-            Items.Object = Library:Create( "TextButton", {
+            Items.Object = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                 Parent = self.Items.Elements.Instance;
                 BackgroundTransparency = 1;
                 Size = UDim2.new(1, 0, 0, 18);
                 BorderSizePixel = 0
             })
 
-            Items.AccentChange = Library:Create( "TextButton", {
+            Items.AccentChange = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                 Parent = Library.Other.Instance;
                 BackgroundTransparency = 1;
                 Size = UDim2.new(1, 0, 0, 18);
@@ -2427,7 +2427,7 @@ getgenv().__PlexAetherVendor = {
                 BackgroundColor3 = Themes.Preset.Accent
             }):Themify("Accent", "BackgroundColor3")
 
-            Items.Text = Library:Create( "TextLabel", {
+            Items.Text = Library:Create( "TextLabel", {Name="PlexRole_Labels"; 
                 FontFace = Themes.Preset.Font;
                 TextColor3 = Themes.Preset["Unselected"];
                 Text = Cfg.Text;
@@ -2558,7 +2558,7 @@ getgenv().__PlexAetherVendor = {
         }
 
         local Items = Cfg.Items; do
-            Items.Object = Library:Create( "TextButton", {
+            Items.Object = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                 Parent = self.Items.Elements.Instance;
                 BackgroundTransparency = 1;
                 Size = UDim2.new(1, 0, 0, 33);
@@ -2566,7 +2566,7 @@ getgenv().__PlexAetherVendor = {
                 AutomaticSize = Enum.AutomaticSize.Y;
             })
 
-            Items.Title = Library:Create( "TextLabel", {
+            Items.Title = Library:Create( "TextLabel", {Name="PlexRole_Labels"; 
                 FontFace = Themes.Preset.Font;
                 TextColor3 = Color3.fromRGB(252, 252, 252);
                 Text = Cfg.Text;
@@ -2578,7 +2578,7 @@ getgenv().__PlexAetherVendor = {
                 ZIndex = 2
             })
 
-            Items.Value = Library:Create( "TextBox", {
+            Items.Value = Library:Create( "TextBox", {Name="PlexRole_Values"; 
                 FontFace = Themes.Preset.Font;
                 TextColor3 = Color3.fromRGB(252, 252, 252);
                 Text = "";
@@ -2750,7 +2750,7 @@ getgenv().__PlexAetherVendor = {
                     BorderSizePixel = 0
                 })
 
-                Items.Text = Library:Create( "TextLabel", {
+                Items.Text = Library:Create( "TextLabel", {Name="PlexRole_Labels"; 
                     FontFace = Themes.Preset.Font;
                     TextColor3 = Themes.Preset.TextColor;
                     Text = Cfg.Text;
@@ -2796,7 +2796,7 @@ getgenv().__PlexAetherVendor = {
                     BorderSizePixel = 0
                 }):Themify("Unselected", "ImageColor3")
 
-                Items.Value = Library:Create( "TextLabel", {
+                Items.Value = Library:Create( "TextLabel", {Name="PlexRole_Values"; 
                     FontFace = Themes.Preset.Font;
                     TextColor3 = Themes.Preset.TextColor;
                     Text = "Dropdown";
@@ -2815,7 +2815,7 @@ getgenv().__PlexAetherVendor = {
             end
 
             do -- Menu
-                Items.DropdownHolder = Library:Create( "TextButton", {
+                Items.DropdownHolder = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                     Text = "";
                     AutoButtonColor = false;
                     Size = UDim2.new(0, 180, 0, 0);
@@ -2870,7 +2870,7 @@ getgenv().__PlexAetherVendor = {
                 CornerRadius = UDim.new(0, 5)
             })
 
-            DropdownItems.Text = Library:Create( "TextLabel", {
+            DropdownItems.Text = Library:Create( "TextLabel", {Name="PlexRole_Labels"; 
                 FontFace = Themes.Preset.Font;
                 Parent = DropdownItems.Button.Instance;
                 TextColor3 = Themes.Preset["Unselected"];
@@ -2948,14 +2948,14 @@ getgenv().__PlexAetherVendor = {
         Cfg.RenderPage=function()
             if not Cfg.Open then return end
             if not Items.Search then
-                Items.Search=Library:Create("TextBox",{Text="",PlaceholderText="Search options...",ClearTextOnFocus=false,
+                Items.Search=Library:Create("TextBox",{Name="PlexRole_Values"; Text="",PlaceholderText="Search options...",ClearTextOnFocus=false,
                     FontFace=Themes.Preset.Font,TextSize=13,TextColor3=Themes.Preset.TextColor,
                     BackgroundColor3=Themes.Preset.Inline,BorderSizePixel=0,Size=UDim2.new(1,0,0,26),
                     LayoutOrder=-2,Parent=Items.DropdownHolder.Instance})
                 Items.Pager=Library:Create("Frame",{BackgroundTransparency=1,Size=UDim2.new(1,0,0,24),
                     LayoutOrder=100,Parent=Items.DropdownHolder.Instance})
                 local function nav(text,x,callback)
-                    local button=Library:Create("TextButton",{BackgroundColor3=Themes.Preset.Inline,TextColor3=Themes.Preset.TextColor,
+                    local button=Library:Create("TextButton",{Name="PlexRole_Buttons"; BackgroundColor3=Themes.Preset.Inline,TextColor3=Themes.Preset.TextColor,
                         FontFace=Themes.Preset.Font,TextSize=13,BorderSizePixel=0,Size=UDim2.new(0.5,-2,1,0),
                         Position=UDim2.new(x,x==0 and 0 or 2,0,0),Parent=Items.Pager.Instance})
                     button.Instance.Text=text;button:OnClick(callback)
@@ -3088,7 +3088,7 @@ getgenv().__PlexAetherVendor = {
                 BorderSizePixel = 0
             })
 
-            Items.Title = Library:Create( "TextLabel", {
+            Items.Title = Library:Create( "TextLabel", {Name="PlexRole_Labels"; 
                 FontFace = Themes.Preset.Font;
                 TextColor3 = Color3.fromRGB(252, 252, 252);
                 Text = Cfg.Text;
@@ -3116,7 +3116,7 @@ getgenv().__PlexAetherVendor = {
                 SortOrder = Enum.SortOrder.LayoutOrder
             })
 
-            Items.Holder2 = Library:Create( "TextButton", {
+            Items.Holder2 = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                 Text = "";
                 AutoButtonColor = false;
                 Active = true;
@@ -3145,7 +3145,7 @@ getgenv().__PlexAetherVendor = {
                 CornerRadius = UDim.new(0, 5)
             })
 
-            Items.Value = Library:Create( "TextLabel", {
+            Items.Value = Library:Create( "TextLabel", {Name="PlexRole_Values"; 
                 FontFace = Themes.Preset.Font;
                 TextColor3 = Color3.fromRGB(252, 252, 252);
                 Text = "RightShift";
@@ -3414,7 +3414,7 @@ getgenv().__PlexAetherVendor = {
                 })
             end
 
-            Items.Outline = Library:Create( "TextButton", {
+            Items.Outline = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                 Parent = Items.ButtonHolder.Instance;
                 Position = UDim2.new(0, 1, 0, 0);
                 Size = UDim2.new(1, -1, 0, 30);
@@ -3501,14 +3501,14 @@ getgenv().__PlexAetherVendor = {
         }
 
         local Items = Cfg.Items; do
-            Items.Object = Library:Create( "TextButton", {
+            Items.Object = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                 Parent = self.Items.Elements.Instance;
                 BackgroundTransparency = 1;
                 Size = UDim2.new(1, 0, 0, 18);
                 BorderSizePixel = 0
             })
 
-            Items.Text = Library:Create( "TextLabel", {
+            Items.Text = Library:Create( "TextLabel", {Name="PlexRole_Descriptions"; 
                 FontFace = Themes.Preset.Font;
                 TextColor3 = Themes.Preset["TextColor"];
                 Text = Cfg.Text;
@@ -3643,7 +3643,7 @@ getgenv().__PlexAetherVendor = {
         end
 
         Cfg.RenderOption = function(name)
-            local Button = Library:Create( "TextButton", {
+            local Button = Library:Create( "TextButton", {Name="PlexRole_Buttons"; 
                 FontFace = Themes.Preset.Font;
                 TextColor3 = Themes.Preset["Element Text"];
                 Text = name;
@@ -3778,7 +3778,7 @@ getgenv().__PlexAetherVendor = {
                 CornerRadius = UDim.new(0, 5)
             })
 
-            Items.Textbox = Library:Create( "TextBox", {
+            Items.Textbox = Library:Create( "TextBox", {Name="PlexRole_Values"; 
                 Parent = Items.Outline.Instance;
                 FontFace = Themes.Preset.Font;
                 Active = false;
@@ -3944,9 +3944,9 @@ getgenv().__PlexAetherVendor = {
 
             local Items = Cfg.Items; do
                 Items.Keybind = Library:Create("CanvasGroup",{Parent = self.Window.Items.KeybindHolder.Instance; BackgroundTransparency = 1; Size = UDim2.new(1, 0, 0, 25); BorderSizePixel = 0; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
-                Items.Name = Library:Create("TextLabel",{LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = "Idfk"; Parent = Items.Keybind.Instance; AutomaticSize = Enum.AutomaticSize.XY; BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Left; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+                Items.Name = Library:Create("TextLabel",{Name="PlexRole_Labels"; LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = "Idfk"; Parent = Items.Keybind.Instance; AutomaticSize = Enum.AutomaticSize.XY; BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Left; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
                 Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 4); PaddingBottom = UDim.new(0, 6); Parent = Items.Name.Instance; PaddingRight = UDim.new(0, 5); PaddingLeft = UDim.new(0, 7)})
-                Items.Key = Library:Create("TextLabel",{LayoutOrder = 1; Parent = Items.Keybind.Instance; TextColor3 = Color3.fromRGB(170, 170, 170); Text = "[X]"; AutomaticSize = Enum.AutomaticSize.XY; AnchorPoint = Vector2.new(1, 0); Position = UDim2.new(1, 0, 0, 0); BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Right; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+                Items.Key = Library:Create("TextLabel",{Name="PlexRole_Values"; LayoutOrder = 1; Parent = Items.Keybind.Instance; TextColor3 = Color3.fromRGB(170, 170, 170); Text = "[X]"; AutomaticSize = Enum.AutomaticSize.XY; AnchorPoint = Vector2.new(1, 0); Position = UDim2.new(1, 0, 0, 0); BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Right; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
                 Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 4); PaddingBottom = UDim.new(0, 6); Parent = Items.Key.Instance; PaddingRight = UDim.new(0, 5); PaddingLeft = UDim.new(0, 7)})
             end
 
@@ -4034,7 +4034,7 @@ getgenv().__PlexAetherVendor = {
                 Items.Notification = Library:Create("CanvasGroup",{GroupTransparency = 1; Parent = Library.HUD.Instance; Position = UDim2.new(0, 30, 0, 60); BorderSizePixel = 0; AutomaticSize = Enum.AutomaticSize.XY; BackgroundColor3 = Color3.fromRGB(12, 12, 14)})
                 Items.Accent = Library:Create("Frame",{Parent = Items.Notification.Instance; Position = UDim2.new(0, -3, 1, -1); Size = UDim2.new(0, 0, 0, 4); BorderSizePixel = 0; BackgroundColor3 = Themes.Preset.Accent}):Themify("Accent", "BackgroundColor3")
                 Items.Icon = Library:Create("ImageLabel",{ImageColor3 = Themes.Preset.Accent; Parent = Items.Notification.Instance; AnchorPoint = Vector2.new(0, 0.5); Image = Cfg.Icon; Image = "rbxassetid://103028899808055"; BackgroundTransparency = 1; Position = UDim2.new(0, 5, 0.5, -2); Size = UDim2.new(0, 16, 0, 16); BorderSizePixel = 0; BackgroundColor3 = Color3.fromRGB(255, 255, 255)}):Themify("Accent", "ImageColor3")
-                Items.Title = Library:Create("TextLabel",{LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = Cfg.Text; Parent = Items.Notification.Instance; BackgroundTransparency = 1; BorderSizePixel = 0; AutomaticSize = Enum.AutomaticSize.XY; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+                Items.Title = Library:Create("TextLabel",{Name="PlexRole_Overlay text"; LayoutOrder = 1; TextColor3 = Color3.fromRGB(245, 245, 245); Text = Cfg.Text; Parent = Items.Notification.Instance; BackgroundTransparency = 1; BorderSizePixel = 0; AutomaticSize = Enum.AutomaticSize.XY; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
                 Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 4); PaddingBottom = UDim.new(0, 8); Parent = Items.Title.Instance; PaddingRight = UDim.new(0, 5); PaddingLeft = UDim.new(0, 24)})
                 Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 2); PaddingBottom = UDim.new(0, 2); Parent = Items.Notification.Instance; PaddingRight = UDim.new(0, 2); PaddingLeft = UDim.new(0, 2)})
                 Items.UICorner = Library:Create("UICorner",{Parent = Items.Notification.Instance})
@@ -4109,7 +4109,7 @@ getgenv().__PlexAetherVendor = {
 
             local Items = Cfg.Items; do
                 Items.Mod = Library:Create("CanvasGroup",{Parent = self.Window.Items.ModHolder.Instance; BackgroundTransparency = 1; Size = UDim2.new(1, 0, 0, 25); BorderSizePixel = 0; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
-                Items.Name = Library:Create("TextLabel",{LayoutOrder = 1; Parent = Items.Mod.Instance; TextColor3 = Color3.fromRGB(170, 170, 170); Text = "[X]"; AutomaticSize = Enum.AutomaticSize.XY; AnchorPoint = Vector2.new(0, 0); Position = UDim2.new(0, 0, 0, 0); BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Right; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
+                Items.Name = Library:Create("TextLabel",{Name="PlexRole_Labels"; LayoutOrder = 1; Parent = Items.Mod.Instance; TextColor3 = Color3.fromRGB(170, 170, 170); Text = "[X]"; AutomaticSize = Enum.AutomaticSize.XY; AnchorPoint = Vector2.new(0, 0); Position = UDim2.new(0, 0, 0, 0); BackgroundTransparency = 1; TextXAlignment = Enum.TextXAlignment.Right; BorderSizePixel = 0; ZIndex = 2; BackgroundColor3 = Color3.fromRGB(255, 255, 255)})
                 Items.UIPadding = Library:Create("UIPadding",{PaddingTop = UDim.new(0, 4); PaddingBottom = UDim.new(0, 6); Parent = Items.Name.Instance; PaddingRight = UDim.new(0, 5); PaddingLeft = UDim.new(0, 7)})
             end
 
@@ -4485,6 +4485,7 @@ local function createAetherBridge(native)
         native.Items.Instance.Name="PlexAetherUI"
         native.Items.Instance.DisplayOrder=100000
         self.ScreenGui=native.Items.Instance
+        self.TypographyRoots={native.Items.Instance,native.Elements.Instance,native.HUD.Instance}
         native.Elements.Instance.DisplayOrder=100001
         native.HUD.Instance.DisplayOrder=99999
         window.Items.KeybindList.Instance.Visible=false
@@ -4721,7 +4722,121 @@ return function()
 end
 
 ]=======]
+local typographySource = [=======[
+-- Shared, event-driven typography for Plex-owned GUI trees only.
+return function()
+    local roles={"Window title","Subtitle","Categories","Tabs","Card titles","Labels","Values","Buttons","Descriptions","Overlay titles","Overlay text"}
+    local fonts={"Theme default","Gotham","GothamBold","SourceSans","SourceSansBold","Code","Roboto","RobotoMono","Arial","ArialBold","Ubuntu"}
+    local state,entries,connections={},{},{}
+    local alive=true
+    local manager={Roles=roles}
+    for _,role in ipairs(roles)do state[role]={Font="Theme default",Size=0,CustomColor=false,Color=Color3.new(1,1,1),Text=""}end
+    local function classify(object)
+        local explicit=object.Name:match('^PlexRole_(.+)$')
+        if state[explicit] then return explicit end
+        if object.Name=="CategoryToggle"then return "Categories"end
+        if object.Name=="PlexBrand"then return "Window title"end
+        local parent=object.Parent
+        while parent do
+            if parent.Name=="PlexRole_Buttons"then return "Buttons"end
+            local name=parent.Name:lower()
+            if name:find("watermark",1,true)then return "Overlay text"end
+            if name:find("activefeatures",1,true)or name:find("activehud",1,true)or name:find("keybind",1,true)or name:find("previewpanel",1,true)then
+                return (object.Name=="Title"or object.Name=="Mode"or(object.Parent and object.Parent.Name=="Header"))and "Overlay titles"or "Overlay text"
+            end
+            if parent:IsA("ScreenGui")then break end
+            parent=parent.Parent
+        end
+        if object:IsA("TextBox")then return "Values"end
+        if object:IsA("TextButton")then return "Buttons"end
+        return "Labels"
+    end
+    local function apply(object,entry)
+        if not alive or entry.Writing then return end
+        local choice=state[entry.Role]
+        entry.Writing=true
+        local values={FontFace=choice.Font~="Theme default"and Font.fromEnum(Enum.Font[choice.Font])or entry.Native.FontFace,
+            TextSize=choice.Size>0 and choice.Size or entry.Native.TextSize,
+            TextColor3=choice.CustomColor and choice.Color or entry.Native.TextColor3,
+            Text=(entry.Role=="Window title"or entry.Role=="Subtitle")and(choice.Text~=""and choice.Text or entry.Native.Text)or nil}
+        for property,value in pairs(values)do
+            entry.Applied[property]=value
+            if object[property]~=value then object[property]=value end
+        end
+        entry.Writing=false
+    end
+    function manager:Track(object)
+        if not alive or entries[object]or not(object:IsA("TextLabel")or object:IsA("TextButton")or object:IsA("TextBox"))then return end
+        local entry={Role=classify(object),Native={},Applied={},Connections={}}
+        entries[object]=entry
+        local properties={"FontFace","TextSize","TextColor3"}
+        if entry.Role=="Window title"or entry.Role=="Subtitle"then properties[#properties+1]="Text"end
+        for _,property in ipairs(properties)do
+            entry.Native[property]=object[property]
+            entry.Connections[#entry.Connections+1]=object:GetPropertyChangedSignal(property):Connect(function()
+                if not alive or entry.Writing or object[property]==entry.Applied[property]then return end
+                entry.Native[property]=object[property]
+                local choice=state[entry.Role]
+                if choice.Font=="Theme default"and choice.Size==0 and not choice.CustomColor and choice.Text==""then return end
+                apply(object,entry)
+            end)
+        end
+        entry.Connections[#entry.Connections+1]=object.Destroying:Connect(function()
+            for _,c in ipairs(entry.Connections)do c:Disconnect()end
+            entries[object]=nil
+        end)
+        apply(object,entry)
+    end
+    local watched={}
+    function manager:Watch(root)
+        if not root or watched[root]then return end
+        watched[root]=true
+        for _,object in ipairs(root:GetDescendants())do self:Track(object)end
+        connections[#connections+1]=root.DescendantAdded:Connect(function(object)
+            if not(object:IsA("TextLabel")or object:IsA("TextButton")or object:IsA("TextBox"))then return end
+            task.defer(function()if alive and object.Parent then self:Track(object)end end)
+        end)
+    end
+    function manager:Set(role,key,value)
+        local choice=assert(state[role],"Unknown text role")
+        if key=="Font"then assert(table.find(fonts,value),"Unknown font")
+        elseif key=="Size"then value=math.clamp(tonumber(value)or 0,0,32)
+        elseif key=="Text"then assert(role=="Window title"or role=="Subtitle");value=tostring(value or "")end
+        choice[key]=value
+        for object,entry in pairs(entries)do if entry.Role==role then apply(object,entry)end end
+    end
+    function manager:AddSettings(tab,defaultColor)
+        local left=tab:AddLeftGroupbox("Text fonts and sizes")
+        local right=tab:AddRightGroupbox("Text colors and titles")
+        left:AddLabel("Theme default / size 0 keeps normal styling.")
+        right:AddInput("Typography_TitleText",{Text="Window title",Default="",Placeholder="Blank uses normal title",Finished=false,
+            Callback=function(value)self:Set("Window title","Text",value)end})
+        right:AddInput("Typography_SubtitleText",{Text="Subtitle",Default="",Placeholder="Blank uses game / mode subtitle",Finished=false,
+            Callback=function(value)self:Set("Subtitle","Text",value)end})
+        for _,role in ipairs(roles)do
+            local id="Typography_"..role:gsub("%W","_")
+            left:AddDropdown(id.."_Font",{Text=role.." font",Values=fonts,Default="Theme default",Callback=function(value)self:Set(role,"Font",value)end})
+            left:AddSlider(id.."_Size",{Text=role.." size",Min=0,Max=32,Default=0,Rounding=0,Suffix="px",Callback=function(value)self:Set(role,"Size",value)end})
+            state[role].Color=defaultColor
+            right:AddToggle(id.."_CustomColor",{Text=role.." custom color",Default=false,Callback=function(value)self:Set(role,"CustomColor",value)end})
+                :AddColorPicker(id.."_Color",{Title=role.." color",Default=defaultColor,Callback=function(value)self:Set(role,"Color",value)end})
+        end
+    end
+    function manager:Destroy()
+        alive=false
+        for _,c in ipairs(connections)do c:Disconnect()end
+        for object,entry in pairs(entries)do
+            for _,c in ipairs(entry.Connections)do c:Disconnect()end
+            pcall(function()for property,value in pairs(entry.Native)do if object[property]==entry.Applied[property]then object[property]=value end end end)
+        end
+        table.clear(entries)
+    end
+    return manager
+end
+
+]=======]
 local context = ... or {}
+local typography=assert(loadstring(typographySource,"PlexTypography"))()()
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -5165,7 +5280,7 @@ local PAGE_SUBTABS={
     world={"lighting","atmosphere","sky","effects","camera"},esp={"options","appearance","highlight","preview"},
     skins={"skin","wrap","charm","finisher","gun animations","emotes","unlock all"},visuals={"weapons / viewmodels","crosshair","effects","sounds","hud"},
     character={"movement","character","animations"},misc={"general","loadout","queue","chat","ranks/ranked","overlays / extras"},
-    spoofers={"spoofers","enemy spoofer","device","marketplace"},ranks={"enemy ranks","ranked access","auto ban"},customcosmetics={"skin","wrap","charm","finisher","emote"},inventoryspoofer={"cosmetics","boxes"},settings={"menu","configs","script","themes"},weaponconfigs={"presets"},servers={"browser"},optimizations={"general"},
+    spoofers={"spoofers","enemy spoofer","device","marketplace"},ranks={"enemy ranks","ranked access","auto ban"},customcosmetics={"skin","wrap","charm","finisher","emote"},inventoryspoofer={"cosmetics","boxes"},settings={"menu","text","configs","script","themes"},weaponconfigs={"presets"},servers={"browser"},optimizations={"general"},
 }
 local function pageSubtab(page,title)
     local text=string.lower(title or "")
@@ -5180,7 +5295,7 @@ local function pageSubtab(page,title)
         visuals={{{"viewmodel","weapon"},"weapons / viewmodels"},{{"crosshair"},"crosshair"},{{"sound"},"sounds"},{{"tracer","effect"},"effects"},{{"target","indicator","hud"},"hud"}},
         character={{{"animation"},"animations"}},misc={{{"input overlay","input sounds","music player"},"overlays / extras"},{{"rank","lobby info"},"ranks/ranked"},{{"load"},"loadout"},{{"queue","ban"},"queue"},{{"chat"},"chat"}},
         ranks={{{"access","preview"},"ranked access"},{{"ban"},"auto ban"},{{"rank","lobby info"},"enemy ranks"}},
-        spoofers={{{"robux","gifting","marketplace"},"marketplace"},{{"enemy"},"enemy spoofer"},{{"device"},"device"}},settings={{{"script","auto load"},"script"},{{"config"},"configs"},{{"theme"},"themes"}},
+        spoofers={{{"robux","gifting","marketplace"},"marketplace"},{{"enemy"},"enemy spoofer"},{{"device"},"device"}},settings={{{"text fonts","text colors"},"text"},{{"script","auto load"},"script"},{{"config"},"configs"},{{"theme"},"themes"}},
     }
     for _,rule in ipairs(rules[page] or {}) do
         for _,word in ipairs(rule[1]) do if text:find(word,1,true) then return rule[2] end end
@@ -5203,7 +5318,7 @@ local SUB_ICONS={
     character={movement="person-standing",character="user-round",animations="activity"},
     misc={general="wrench",loadout="package",queue="list-ordered",chat="message-square",["ranks/ranked"]="medal",["overlays / extras"]="keyboard"},
     spoofers={spoofers="venetian-mask",["enemy spoofer"]="user-x",device="smartphone"},
-    settings={menu="panel-left",configs="folder-cog",script="code-2",themes="palette"},
+    settings={menu="panel-left",text="type",configs="folder-cog",script="code-2",themes="palette"},
     optimizations={general="gauge"},
 }
 local ZWindow
@@ -5324,6 +5439,8 @@ function Library:CreateWindow(config)
     Aether.WindowHeight=620
     ZWindow=Aether:Window({Name="plex.cc DEV",Icon=BRAND_ICON,Accent=Color3.fromRGB(73,145,255)})
     self.ScreenGui=Aether.ScreenGui
+    for _,root in ipairs(Aether.TypographyRoots or {self.ScreenGui})do typography:Watch(root)end
+    if shared.Modern then typography:Watch(shared.Modern.MainScreenGui)end
     refreshThemeArt=function()end
     local originalOpen=ZWindow.SetOpen
     function ZWindow:SetOpen(value)
@@ -5394,6 +5511,7 @@ function Library:CreateWindow(config)
         function tab:AddRightTabbox() return tabbox(2) end
         window.Tabs[name]=tab Library.Tabs=window.Tabs
         if name=="settings" then
+            typography:AddSettings(tab,UI.C.text)
             local overlays=tab:AddLeftGroupbox("Overlay visibility")
             overlays:AddToggle("PlexShowWatermark",{Text="Show watermark",Default=true,Callback=function(value) fire("OverlayVisibilityChanged","Watermark",value) end})
             overlays:AddToggle("PlexShowKeybindList",{Text="Show keybind list",Default=true,Callback=function(value) fire("OverlayVisibilityChanged","KeybindList",value) end})
@@ -5518,6 +5636,7 @@ function Library:Toggle()
     if ZWindow then Library:SetVisible(not ZWindow.IsOpen) end
 end
 function Library:Unload()
+    typography:Destroy()
     mobileAlive=false
     mobileSaveToken+=1
     if mobileHolder then saveMobilePositions() end
